@@ -13,6 +13,7 @@ export const DEMO_ACCESS_LEVEL = "demo";
 // Credenciais de demonstração divulgadas aos interessados.
 export const DEMO_CREDENTIALS = {
   login: "DEMO",
+  email: "demo@rsandoli.com",
   password: "rsandoLI298",
   accessLevel: "demo",
 };

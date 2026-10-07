@@ -9,11 +9,11 @@ import AuthLayout from "@/components/AuthLayout";
 import GoogleIcon from "@/components/GoogleIcon";
 import { safeReturnTo } from "@/lib/authReturnTo";
 import { getAccountStatus } from "@/lib/accessControl";
-import { isDemoMode } from "@/lib/demoMode";
+import { isDemoMode, DEMO_CREDENTIALS } from "@/lib/demoMode";
 
 export default function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState(isDemoMode() ? DEMO_CREDENTIALS.email : "");
+  const [password, setPassword] = useState(isDemoMode() ? DEMO_CREDENTIALS.password : "");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -84,8 +84,9 @@ export default function Login() {
       </div>
 
       {isDemoMode() && (
-        <div className="mb-4 p-3 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs text-center font-semibold uppercase tracking-wider">
-          Versão Demonstração
+        <div className="mb-4 p-3 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs space-y-1">
+          <div className="text-center font-semibold uppercase tracking-wider">Versão Demonstração</div>
+          <div className="text-center text-amber-300/80">Credenciais de acesso preenchidas — clique em Entrar.</div>
         </div>
       )}
 

@@ -107,7 +107,7 @@ export default function Login() {
               placeholder="voce@exemplo.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="pl-10 h-12"
+              className="pl-10 h-12 bg-white text-black placeholder:text-gray-400"
               required
             />
           </div>
@@ -128,7 +128,7 @@ export default function Login() {
               placeholder="••••••••"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="pl-10 pr-10 h-12"
+              className="pl-10 pr-10 h-12 bg-white text-black placeholder:text-gray-400"
               required
             />
             <button type="button" onClick={() => setShowPassword((s) => !s)} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground">

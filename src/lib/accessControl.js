@@ -5,6 +5,7 @@ export const ACCESS_LEVELS = [
   { id: "gestor_supervisor", name: "Gestor / Supervisor", rank: 3 },
   { id: "operacional", name: "Usuário Operacional", rank: 2 },
   { id: "consulta", name: "Usuário de Consulta", rank: 1 },
+  { id: "demo", name: "Demonstração (DEMO)", rank: 0 },
 ];
 
 export const ACCOUNT_STATUSES = [
@@ -105,6 +106,24 @@ export const DEFAULT_PERMISSIONS_BY_LEVEL = {
     usuarios: [],
     auditoria: [],
   },
+  // Perfil DEMO — versão de demonstração.
+  // Permite criar/editar APENAS registros próprios em pilotos, diário de bordo,
+  // aeronaves e checklists (execução). Demais módulos em modo consulta.
+  // Bloqueia: download, exportar, excluir, administrar, aprovar, usuarios, auditoria.
+  demo: {
+    dashboard: ["visualizar"],
+    diario_bordo: ["visualizar", "criar", "editar", "proprios"],
+    aeronaves: ["visualizar", "criar", "editar", "proprios"],
+    checklists: ["visualizar", "criar", "finalizar", "proprios"],
+    qrh: ["visualizar"],
+    biblioteca: ["visualizar"],
+    pilotos: ["visualizar", "criar", "editar", "proprios"],
+    treinamentos: ["visualizar"],
+    simulados: ["visualizar"],
+    questoes: ["visualizar"],
+    usuarios: [],
+    auditoria: [],
+  },
 };
 
 export const ACCESS_LEVEL_LABELS = ACCESS_LEVELS.reduce((acc, l) => { acc[l.id] = l.name; return acc; }, {});
@@ -145,10 +164,15 @@ export function can(user, moduleId, action) {
   return perms.includes(action);
 }
 
-/** Se o usuário pode gerenciar outros usuários (admin_geral ou administrador). */
+/** Se o usuário pode gerenciar outros usuários (admin_geral ou administrador). DEMO nunca. */
 export function canManageUsers(user) {
   const level = getAccessLevel(user);
   return level === "admin_geral" || level === "administrador";
+}
+
+/** Se o usuário é do perfil DEMO (versão de demonstração). */
+export function isDemoUser(user) {
+  return getAccessLevel(user) === "demo";
 }
 
 /** Se o usuário pode acessar a auditoria. */

@@ -2,7 +2,7 @@ import { createClientFromRequest } from "npm:@base44/sdk@0.8.52";
 import { AUDITABLE_ACTIONS, canManageLevel, generateTempPassword, rankOf } from "../../shared/accessSecurity.js";
 
 const ACCOUNT_STATUSES = ["convite_pendente", "ativa", "bloqueada", "suspensa", "desativada"];
-const ACCESS_LEVELS = ["admin_geral", "administrador", "gestor_supervisor", "operacional", "consulta"];
+const ACCESS_LEVELS = ["admin_geral", "administrador", "gestor_supervisor", "operacional", "consulta", "demo"];
 
 function levelOf(u) {
   if (u?.access_level && ACCESS_LEVELS.includes(u.access_level)) return u.access_level;
@@ -222,6 +222,20 @@ export default async function (req) {
       if (!target) return Response.json({ error: "Usuário não encontrado." }, { status: 404 });
       const targetLevel = levelOf(target);
 
+      // Proteção do usuário DEMO: não permite alterar nível de acesso, login ou
+      // excluir via redefinição. Apenas admin_geral pode alterar a situação da conta.
+      if (targetLevel === "demo") {
+        if (body.access_level !== undefined && body.access_level !== "demo") {
+          return Response.json({ error: "Não é permitido alterar o nível de acesso do usuário DEMO." }, { status: 403 });
+        }
+        if (body.profile && body.profile.login !== undefined) {
+          return Response.json({ error: "Não é permitido alterar o login do usuário DEMO." }, { status: 403 });
+        }
+        if (body.account_status !== undefined && actorLevel !== "admin_geral") {
+          return Response.json({ error: "Apenas o Administrador Geral pode alterar a situação da conta DEMO." }, { status: 403 });
+        }
+      }
+
       const patch = {};
       const changes = [];
 
@@ -250,6 +264,9 @@ export default async function (req) {
           return Response.json({ error: "Você não pode alterar para um nível igual ou superior ao seu." }, { status: 403 });
         }
         if (target.id === user.id) return Response.json({ error: "Você não pode alterar o próprio nível de acesso." }, { status: 403 });
+        if (targetLevel === "demo" && body.access_level !== "demo") {
+          return Response.json({ error: "Não é permitido alterar o nível de acesso do usuário DEMO." }, { status: 403 });
+        }
         if (targetLevel === "admin_geral" && body.access_level !== "admin_geral") {
           const all = await base44.asServiceRole.entities.User.list();
           const gerals = all.filter((u) => levelOf(u) === "admin_geral" && (u.account_status || "ativa") === "ativa");

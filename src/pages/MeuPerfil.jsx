@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { base44 } from "@/api/base44Client";
 import { useAuth } from "@/lib/AuthContext";
-import { ACCESS_LEVEL_LABELS, ACCOUNT_STATUS_LABELS, getAccessLevel, getAccountStatus } from "@/lib/accessControl";
+import { ACCESS_LEVEL_LABELS, ACCOUNT_STATUS_LABELS, getAccessLevel, getAccountStatus, isDemoUser } from "@/lib/accessControl";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -48,6 +48,7 @@ export default function MeuPerfil() {
 
   const level = getAccessLevel(user);
   const status = getAccountStatus(user);
+  const demo = isDemoUser(user);
 
   const handlePhoto = async (e) => {
     const file = e.target.files?.[0];
@@ -158,11 +159,16 @@ export default function MeuPerfil() {
         <form onSubmit={saveProfile} className="mt-6 pt-6 border-t border-slate-700/60 space-y-4">
           {msg && <div className="px-4 py-2.5 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-sm">{msg}</div>}
           {error && <div className="px-4 py-2.5 rounded-lg bg-rose-500/10 border border-rose-500/30 text-rose-300 text-sm">{error}</div>}
+          {demo && (
+            <div className="px-4 py-2.5 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-300 text-sm">
+              Versão DEMO: a edição de dados cadastrais não está disponível para demonstração.
+            </div>
+          )}
           <div className="max-w-sm space-y-1.5">
             <Label className="text-slate-400 text-xs">Telefone</Label>
-            <Input value={phone} onChange={(e) => setPhone(e.target.value)} className="bg-[#12141A] border-slate-700/60" />
+            <Input value={phone} onChange={(e) => setPhone(e.target.value)} disabled={demo} className="bg-[#12141A] border-slate-700/60 disabled:opacity-50" />
           </div>
-          <Button type="submit" disabled={saving} className="bg-amber-500 hover:bg-amber-400 text-slate-900">
+          <Button type="submit" disabled={saving || demo} className="bg-amber-500 hover:bg-amber-400 text-slate-900 disabled:opacity-40">
             {saving && <Loader2 className="w-4 h-4 mr-2 animate-spin" />} Salvar perfil
           </Button>
         </form>
@@ -171,6 +177,12 @@ export default function MeuPerfil() {
       {/* Alterar senha */}
       <div className="bg-[#1A1D25] rounded-2xl border border-slate-700/60 p-6">
         <h2 className="font-semibold text-slate-100 mb-4 flex items-center gap-2"><ShieldCheck className="w-5 h-5 text-amber-400" /> Alterar senha</h2>
+        {demo ? (
+          <div className="px-4 py-3 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-300 text-sm">
+            Função indisponível na versão DEMO. A senha padrão de demonstração não pode ser alterada.
+          </div>
+        ) : (
+        <>
         {pwdMsg && <div className="mb-4 px-4 py-2.5 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-sm">{pwdMsg}</div>}
         {pwdError && <div className="mb-4 px-4 py-2.5 rounded-lg bg-rose-500/10 border border-rose-500/30 text-rose-300 text-sm">{pwdError}</div>}
         <form onSubmit={changePassword} className="space-y-4 max-w-md">
@@ -192,6 +204,8 @@ export default function MeuPerfil() {
             {pwdSaving && <Loader2 className="w-4 h-4 mr-2 animate-spin" />} Alterar senha
           </Button>
         </form>
+        </>
+        )}
       </div>
     </div>
   );

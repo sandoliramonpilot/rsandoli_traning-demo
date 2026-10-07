@@ -25,6 +25,7 @@ import Register from '@/pages/Register';
 import ForgotPassword from '@/pages/ForgotPassword';
 import ResetPassword from '@/pages/ResetPassword';
 import OAuthConsent from '@/pages/OAuthConsent';
+import TermsGate from '@/components/TermsModal';
 // Add page imports here
 
 const AuthenticatedApp = () => {
@@ -52,6 +53,7 @@ const AuthenticatedApp = () => {
 
   // Render the main app
   return (
+    <TermsGate>
     <Routes>
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
@@ -74,6 +76,7 @@ const AuthenticatedApp = () => {
       </Route>
       <Route path="*" element={<PageNotFound />} />
     </Routes>
+    </TermsGate>
   );
 };
 

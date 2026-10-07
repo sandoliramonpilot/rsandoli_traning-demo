@@ -9,6 +9,7 @@ import AuthLayout from "@/components/AuthLayout";
 import GoogleIcon from "@/components/GoogleIcon";
 import { safeReturnTo } from "@/lib/authReturnTo";
 import { getAccountStatus } from "@/lib/accessControl";
+import { isDemoMode } from "@/lib/demoMode";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -81,6 +82,12 @@ export default function Login() {
           <span className="bg-card px-3 text-muted-foreground">ou</span>
         </div>
       </div>
+
+      {isDemoMode() && (
+        <div className="mb-4 p-3 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs text-center font-semibold uppercase tracking-wider">
+          Versão Demonstração
+        </div>
+      )}
 
       {error && (
         <div className="mb-4 p-3 rounded-lg bg-destructive/10 text-destructive text-sm">{error}</div>

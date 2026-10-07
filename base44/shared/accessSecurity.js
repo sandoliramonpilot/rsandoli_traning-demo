@@ -27,6 +27,7 @@ export const ACCESS_RANK = {
   gestor_supervisor: 3,
   operacional: 2,
   consulta: 1,
+  demo: 0,
 };
 
 export function rankOf(level) {

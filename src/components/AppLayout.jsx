@@ -2,9 +2,10 @@ import React from "react";
 import { Link, useLocation, Outlet } from "react-router-dom";
 import { LayoutDashboard, ClipboardCheck, Siren, GraduationCap, BookOpen, Library, Users, Search, X, Wind, Menu, Plane, HelpCircle, BarChart3, UserCog, UserCircle, LogOut } from "lucide-react";
 import GlobalSearch from "@/components/GlobalSearch";
+import DemoBadge, { DemoWatermark } from "@/components/DemoBadge";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/lib/AuthContext";
-import { can, canManageUsers, getAccessLevel } from "@/lib/accessControl";
+import { can, canManageUsers, getAccessLevel, isDemoUser } from "@/lib/accessControl";
 
 const navSections = [
   {
@@ -83,6 +84,7 @@ export default function AppLayout() {
           <Outlet />
         </div>
       </main>
+      <DemoWatermark />
     </div>
   );
 }
@@ -113,10 +115,11 @@ function SidebarContent({ location, onNavigate }) {
     <>
       <div className="px-6 py-7 flex items-center gap-3 border-b border-slate-800">
         <Logo />
-        <div>
+        <div className="flex-1 min-w-0">
           <p className="font-semibold tracking-tight leading-tight text-sm">RSANDOLI PILOTS</p>
           <p className="text-[10px] uppercase tracking-widest text-amber-400/80">Helicopter Training</p>
         </div>
+        <DemoBadge />
       </div>
 
       <button

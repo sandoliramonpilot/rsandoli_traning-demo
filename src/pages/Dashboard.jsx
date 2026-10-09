@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
 import { QRH_CATEGORIES } from "@/lib/qrhData";
+import { isDemoMode } from "@/lib/demoMode";
+import FlightHoursByAircraftChart from "@/components/dashboard/FlightHoursByAircraftChart";
 import { Plane, BookOpen, Clock, TrendingUp, AlertTriangle, Plus, CheckCircle2, Wrench, Siren, Library, GraduationCap, ChevronRight, Award, ClipboardCheck, Users, HelpCircle } from "lucide-react";
 
 function fmtHours(min) {
@@ -139,6 +141,9 @@ export default function Dashboard() {
               )}
             </div>
           </Panel>
+
+          {/* DEMO: gráfico de horas por aeronave */}
+          {isDemoMode() && <FlightHoursByAircraftChart />}
 
           {/* Recent flights */}
           <Panel title="Voos recentes" to="/flight-log" linkLabel="Ver todos">

@@ -1,5 +1,5 @@
 {
-  "name": "AccessAuditLog",
+  "name_name": "AccessAuditLog",
   "type": "object",
   "properties": {
     "actor_user_id": {

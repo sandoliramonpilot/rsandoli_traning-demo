@@ -1,0 +1,104 @@
+{
+  "name": "Calculation",
+  "type": "object",
+  "properties": {
+    "userId": {
+      "type": "string"
+    },
+    "aircraftId": {
+      "type": "string"
+    },
+    "aircraftLabel": {
+      "type": "string"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "briefing",
+        "altitude",
+        "hover",
+        "roc",
+        "cruise"
+      ],
+      "enumColors": [
+        "blue",
+        "purple",
+        "green",
+        "yellow",
+        "pink"
+      ]
+    },
+    "inputs": {
+      "type": "object"
+    },
+    "outputs": {
+      "type": "object"
+    },
+    "memorySteps": {
+      "type": "object"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "ok",
+        "limite",
+        "excede"
+      ],
+      "enumColors": [
+        "green",
+        "yellow",
+        "red"
+      ]
+    },
+    "createdAt": {
+      "type": "string"
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "type"
+  ],
+  "rls": {
+    "create": {
+      "created_by_id": "{{user.id}}"
+    },
+    "read": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}

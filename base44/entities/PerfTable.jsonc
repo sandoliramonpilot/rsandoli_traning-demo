@@ -1,0 +1,117 @@
+{
+  "name": "PerfTable",
+  "type": "object",
+  "properties": {
+    "aircraftId": {
+      "type": "string"
+    },
+    "chartType": {
+      "type": "string",
+      "enum": [
+        "hover_ige_top",
+        "hover_ige_mcp",
+        "hover_oge_top",
+        "hover_oge_mcp",
+        "roc_top",
+        "roc_mcp",
+        "cruise",
+        "corrected_weight",
+        "range_endurance"
+      ],
+      "enumColors": [
+        "blue",
+        "blue",
+        "blue",
+        "blue",
+        "purple",
+        "purple",
+        "green",
+        "yellow",
+        "pink"
+      ]
+    },
+    "condition": {
+      "type": "string",
+      "enum": [
+        "clean",
+        "heater_off",
+        "heater_on",
+        "ecs_on",
+        "ibf_clogged",
+        "sand_filter"
+      ],
+      "enumColors": [
+        "green",
+        "gray",
+        "yellow",
+        "yellow",
+        "purple",
+        "pink"
+      ],
+      "default": "clean"
+    },
+    "grossWeightKg": {
+      "type": "number"
+    },
+    "dataModel": {
+      "type": "string",
+      "enum": [
+        "A",
+        "B"
+      ],
+      "enumColors": [
+        "blue",
+        "purple"
+      ]
+    },
+    "data": {
+      "type": "object"
+    },
+    "sourceFigure": {
+      "type": "string"
+    },
+    "sourceRevision": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pendente",
+        "validado"
+      ],
+      "enumColors": [
+        "yellow",
+        "green"
+      ],
+      "default": "pendente"
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "aircraftId",
+    "chartType",
+    "data",
+    "sourceFigure",
+    "sourceRevision"
+  ],
+  "rls": {
+    "read": {},
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

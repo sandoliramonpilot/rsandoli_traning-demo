@@ -1,0 +1,42 @@
+{
+  "name": "WeightItem",
+  "type": "object",
+  "properties": {
+    "aircraftId": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "weightKg": {
+      "type": "number"
+    },
+    "armMm": {
+      "type": "number"
+    },
+    "category": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "name"
+  ],
+  "rls": {
+    "read": {},
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

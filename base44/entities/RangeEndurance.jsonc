@@ -1,0 +1,57 @@
+{
+  "name": "RangeEndurance",
+  "type": "object",
+  "properties": {
+    "aircraftId": {
+      "type": "string"
+    },
+    "sourceFigure": {
+      "type": "string"
+    },
+    "sourceRevision": {
+      "type": "string"
+    },
+    "data": {
+      "type": "object"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pendente",
+        "validado"
+      ],
+      "enumColors": [
+        "yellow",
+        "green"
+      ],
+      "default": "pendente"
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "aircraftId",
+    "sourceFigure",
+    "sourceRevision",
+    "data"
+  ],
+  "rls": {
+    "read": {},
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

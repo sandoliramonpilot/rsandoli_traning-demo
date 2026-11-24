@@ -1,0 +1,40 @@
+{
+  "name": "Checklist",
+  "type": "object",
+  "properties": {
+    "aircraftId": {
+      "type": "string"
+    },
+    "step": {
+      "type": "string"
+    },
+    "order": {
+      "type": "number"
+    },
+    "text": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "step",
+    "text"
+  ],
+  "rls": {
+    "read": {},
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}
